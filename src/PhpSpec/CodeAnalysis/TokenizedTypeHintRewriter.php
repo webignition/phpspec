@@ -42,7 +42,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
      */
     private $namespaceResolver;
 
-    
+
     public function __construct(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
     {
         $this->typeHintIndex = $typeHintIndex;
@@ -132,7 +132,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
         return $tokens;
     }
 
-    
+
     private function tokensToString(array $tokens): string
     {
         return join('', array_map(function ($token) {
@@ -198,7 +198,7 @@ final class TokenizedTypeHintRewriter implements TypeHintRewriter
 
     private function haveNotReachedEndOfTypeHint($token) : bool
     {
-        if ($token == '|' || $token == '&') {
+        if ($token == '|' || $token == '&' || (is_array($token) && $token[1] == '&')) {
             return false;
         }
 

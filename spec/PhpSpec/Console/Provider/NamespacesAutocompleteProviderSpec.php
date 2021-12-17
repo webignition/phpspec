@@ -4,6 +4,7 @@ namespace spec\PhpSpec\Console\Provider;
 
 use PhpSpec\Locator\SrcPathLocator;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -19,7 +20,8 @@ class NamespacesAutocompleteProviderSpec extends ObjectBehavior
     {
         $finder->files()->willReturn($finder);
         $finder->name('*.php')->willReturn($finder);
-        $finder->in(['/app/src'])->willReturn([]);
+        $finder->getIterator()->willReturn(new \ArrayIterator([]));
+        $finder->in(['/app/src'])->willReturn($finder);
 
         $this->getNamespaces()->shouldHaveCount(0);
     }
@@ -32,7 +34,8 @@ class NamespacesAutocompleteProviderSpec extends ObjectBehavior
     ) {
         $finder->files()->shouldBeCalled()->willReturn($finder);
         $finder->name('*.php')->shouldBeCalled()->willReturn($finder);
-        $finder->in(['/app/src'])->shouldBeCalled()->willReturn([$file1, $file2, $file3]);
+        $finder->getIterator()->shouldBecalled()->willReturn(new \ArrayIterator([$file1, $file2, $file3]));
+        $finder->in(['/app/src'])->shouldBeCalled()->willReturn($finder);
 
         $file1->getContents()->willReturn('<?php namespace App\Foo; class Foo {}');
         $file2->getContents()->willReturn('<?php namespace App\Foo; class Bar {}');
