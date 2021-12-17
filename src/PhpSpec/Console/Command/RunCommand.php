@@ -142,7 +142,7 @@ EOF
         ;
     }
 
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getApplication()->getContainer();
@@ -172,7 +172,7 @@ EOF
 
         $container->configure();
 
-        $locator = $input->getArgument('spec');
+        $locator = $input->getArgument('spec') ?? '';
         $linenum = null;
         if (preg_match('/^(.*)\:(\d+)$/', $locator, $matches)) {
             list($_, $locator, $linenum) = $matches;
